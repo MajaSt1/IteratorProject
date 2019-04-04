@@ -1,6 +1,10 @@
 package datastructure.list;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * List based on the table
@@ -8,17 +12,34 @@ import java.util.Iterator;
  * @param <T>
  */
 public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
-    /* (TODO Starterkit 1) Please introduce a sensible implementation for storage*/
-
-    public CustomArrayList() {
+    
+	private Object[]value;
+	private int initialCapacity;
+	private static final int DEFAULT = 10;
+	
+    public CustomArrayList() { 
+    	value= new Object[DEFAULT];
     }
 
     public CustomArrayList(int initialCapacity) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation for storage*/
+    	this.initialCapacity=initialCapacity;
+    	value=new Object[initialCapacity];
+    }
+    public int getvalue(){
+		return value.length;
     }
 
     @Override
     public int size() {
+    	
+    /*	 if (initialCapacity > 0) {
+            this.value = new Object[initialCapacity];
+        } else if (initialCapacity == 0) {
+            this.value = EMPTY_ELEMENTDATA;
+        } else {
+            throw new IllegalArgumentException("Illegal Capacity: "+
+                                               initialCapacity);
+        }
         /* (TODO Starterkit 1) Please introduce a sensible implementation */
         return 0;
     }
@@ -38,12 +59,14 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public Iterator<T> iterator() {
+    	
         /* (TODO Starterkit 1) Please introduce a sensible implementation */
         return new CustomArrayListIterator<>();
     }
 
     @Override
     public boolean add(T t) {
+    
         /* (TODO Starterkit 1) Please introduce a sensible implementation */
         return false;
     }
@@ -56,7 +79,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public void clear() {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+        
     }
 
     @Override

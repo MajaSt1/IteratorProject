@@ -8,75 +8,87 @@ import java.util.Iterator;
  * @param <T>
  */
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
-    /* (TODO Starterkit 1) Please introduce a sensible implementation for storage*/
+    
+	private Node head= new Node(null);
+	private int size;
 
+	public CustomLinkedList(){
+		clear();
+	}
+	
     @Override
     public int size() {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return 0;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-         /* (TODO Starterkit 1) Please introduce a sensible implementation */
+    	if(size == 0) return true;
+    	
         return false;
+        // return size==0;
     }
 
     @Override
     public boolean contains(Object o) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+    	if(head.getValue().equals(o)){
+    		return true;
+    	}
         return false;
     }
 
     @Override
     public Iterator<T> iterator() {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+        
         return new CustomLinkedListIterator<>();
     }
 
     @Override
     public boolean add(T t) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+    	if(head.getNext().equals(null)) head.setNext(new Node(t));
+        
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+       
         return false;
     }
 
     @Override
     public void clear() {
-        /* (TODO Starterkit 1)  Please introduce a sensible implementation */
+    	head.setNext(null);
+    	size=0;
+       
     }
 
     @Override
     public T get(int index) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+        
         return null;
     }
 
     @Override
     public T set(int index, T element) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+        
         return null;
     }
 
     @Override
     public void add(int index, T element) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+       
     }
 
     @Override
     public T remove(int index) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+        
         return null;
     }
 
     @Override
     public int indexOf(Object o) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+       
         return 0;
     }
 
@@ -87,19 +99,19 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
         @Override
         public boolean hasNext() {
-             /* (TODO Starterkit 1) Please introduce a sensible implementation */
+             
             return false;
         }
 
         @Override
         public E next() {
-             /* (TODO Starterkit 1) Please introduce a sensible implementation */
+             
             return null;
         }
 
         @Override
         public void remove() {
-             /* (TODO Starterkit 1)Please introduce a sensible implementation */
+             
         }
     }
 }
