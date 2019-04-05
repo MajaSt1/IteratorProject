@@ -9,7 +9,7 @@ import java.util.Iterator;
  */
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
     
-	private Node head= new Node(null);
+	private Node<T>head;
 	private int size;
 
 	public CustomLinkedList(){
@@ -77,7 +77,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public void add(int index, T element) {
-       
+       Node <T> node= new Node<T> (element);
     }
 
     @Override
@@ -96,10 +96,14 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
      * Iterator for CustomLinkedList
      */
     private class CustomLinkedListIterator<E> implements Iterator<E> {
-
+    	 Node <T> currentValue= null; 
         @Override
         public boolean hasNext() {
-             
+             if(currentValue == null && head != null){
+            	 return true;
+             }else if (currentValue != null){
+            	 return currentValue.getNext()!=null; // true
+             }	
             return false;
         }
 
