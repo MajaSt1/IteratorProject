@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
 
@@ -19,9 +20,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 	private int initialCapacity;
 	private static final int DEFAULT = 10;
 	private static final Object[] EMPTY = {};
-	
-	private int size = value.length;
-	
+	private int size= size();
 	// ASPECTJ
 	
     public CustomArrayList() { 
@@ -40,9 +39,8 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public int size() {
-        return size; //size
+        return value.length; 
     }
-
 
     @Override
     public boolean isEmpty() {
@@ -56,13 +54,13 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public Iterator<T> iterator() {
-    
         return new CustomArrayListIterator<>();
     }
 
     @Override
     public boolean add(T t) {
-    	if(size == initialCapacity){ //
+    	
+    	if(size() == initialCapacity){ 
             return false;
         }
         value[size--] = t;
@@ -74,13 +72,13 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
     public boolean remove(Object o) { 
     	if(size != 0){
     	 if (o == null) {
-             for (int index = 0; index < size; index++)
+             for (int index = 0; index < size(); index++)
                  if (value[index] == null) {
                      remove(index);
                      return true;
                  }
          } else {
-             for (int index = 0; index < size; index++)
+             for (int index = 0; index < size(); index++)
                  if (o.equals(value[index])) {
                      remove(index);
                      return true;
@@ -93,7 +91,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size(); i++)
             value[i] = null;
 
         size = 0;
@@ -162,21 +160,27 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
      */
     private class CustomArrayListIterator<E> implements Iterator<E> {
 
-        @Override //index
+    	int current= 0;
+    	
+        @Override 
         public boolean hasNext() {
-        	int index= 0;
-        	current[]=new Object 
-			if(current[0]==null && current.next()){
-        		return current[index+1]
+        	if(current < CustomArrayList.this.value.length){
+        		return true;
+        	}else{
+        		return false;
         	}
-             
-            return false;
         }
 
         @Override
-        public E next() {
-         
-            return value[index-1];
+        public E next() throws NoSuchElementException {
+         if(!hasNext()){
+        	 throw new NoSuchElementException("Array is empty!");
+         }else{
+        	 @SuppressWarnings("unchecked")
+ 			E nextValue =(E) value[current++];
+        	 
+        	 return nextValue;
+            }
         }
 
         @Override
