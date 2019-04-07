@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.IntStream;
 
+
+
 /**
  * List based on the table
  *
@@ -17,6 +19,10 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 	private int initialCapacity;
 	private static final int DEFAULT = 10;
 	private static final Object[] EMPTY = {};
+	
+	private int size = value.length;
+	
+	// ASPECTJ
 	
     public CustomArrayList() { 
     	value= new Object[DEFAULT];
@@ -34,7 +40,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public int size() {
-        return value.length;
+        return size; //size
     }
 
 
@@ -56,48 +62,99 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public boolean add(T t) {
-   
-        return false;
+    	if(size == initialCapacity){ //
+            return false;
+        }
+        value[size--] = t;
+        
+        return true;
     }
 
     @Override
-    public boolean remove(Object o) {
-     
-        return false;
+    public boolean remove(Object o) { 
+    	if(size != 0){
+    	 if (o == null) {
+             for (int index = 0; index < size; index++)
+                 if (value[index] == null) {
+                     remove(index);
+                     return true;
+                 }
+         } else {
+             for (int index = 0; index < size; index++)
+                 if (o.equals(value[index])) {
+                     remove(index);
+                     return true;
+                 }
+            } 
+    	 }else { throw new IllegalArgumentException("Array is empty!");}
+         
+         return false;
     }
 
     @Override
     public void clear() {
-        
+        for (int i = 0; i < size; i++)
+            value[i] = null;
+
+        size = 0;
     }
 
     @Override
     public T get(int index) {
-      
-        return null;
+    	@SuppressWarnings("unchecked")
+    	final T element = (T) value[index];
+    	
+    	return element;
     }
 
     @Override
     public T set(int index, T element) {
-   
-        return null;
+    	@SuppressWarnings("unchecked")
+    	final T e = (T) value[index];
+    	element=e;
+    	
+        return element;
     }
 
     @Override
     public void add(int index, T element) {
-     
+        if( index == size-1 || index > size-1){
+       
+        value[index] = element;
+        size++; 
+        }
     }
 
     @Override
-    public T remove(int index) {
-       
-        return null;
-    }
+    public T remove(int index) { // throw
+    	if(size != 0){
+     @SuppressWarnings("unchecked")
+			T oldValue =(T) value[index];
+
+    	  int numMoved = size - index - 1;
+    	   if (numMoved > 0)
+    	      System.arraycopy(value, index+1, value, index,
+    	                             numMoved);
+    	  value[--size] = null; 
+
+    	  return oldValue;
+    	  
+        } else { throw new IllegalArgumentException("Array is empty!");}
+    	 
+    }	
+  
 
     @Override
     public int indexOf(Object o) {
-    
-        return 0;
+    	if(value==null) return -1;
+    	else {
+    	for (int i = 0; i < value.length; i++){
+    		if(value[i]==o){
+    			return i;
+    		}
+    	}
+    	} return -1;
+        
     }
 
     /**
@@ -105,8 +162,13 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
      */
     private class CustomArrayListIterator<E> implements Iterator<E> {
 
-        @Override
+        @Override //index
         public boolean hasNext() {
+        	int index= 0;
+        	current[]=new Object 
+			if(current[0]==null && current.next()){
+        		return current[index+1]
+        	}
              
             return false;
         }
@@ -114,7 +176,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
         @Override
         public E next() {
          
-            return null;
+            return value[index-1];
         }
 
         @Override
