@@ -3,32 +3,32 @@ package datastructure.list;
 /**
  * Component of linked list that stores a value and reference to the next element.
  */
-public class Node { // tzw.wartownik
-	private Object value;
-	private Node next;
+public class Node <T> {
+	private T value;
+	private Node<T> next; //pointer
 	
-	public Node(){
-		
+	public Node(T value){
+		this(value,null);
 	}
 
-	public Node(Object value, Node next) {
+	public Node(T value, Node<T> next) {
 		this.value= value;
 		this.next= next;
 	}
 
-	public Object getValue() {
+	public T getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 
-	public Node getNext() {
+	public Node<T> getNext() {
 		return next;
 	}
 
-	public void setNext(Node next) {
+	public void setNext(Node<T> next) {
 		this.next = next;
 	} 
 	

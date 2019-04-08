@@ -3,7 +3,6 @@ package datastructure.list;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.LinkedList.Node;
 
 /**
  * List based on recursively related objects
@@ -11,145 +10,190 @@ import java.util.LinkedList.Node;
  * @param <T>
  */
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
-    
-	private Node<T> next;
+
 	private Node<T> head;
 	private int size;
 
-	public CustomLinkedList(){
-		clear();
+	public CustomLinkedList() {
+		head = null;
 	}
-	
-    @Override
-    public int size() {
-        return size;
-    }
 
-    @Override
-    public boolean isEmpty() {
-    	if(size == 0) return true;
-    	
-        return false;
-        // return size==0;
-    }
+	@Override
+	public int size() {
+		return size;
+	}
 
-    @Override
-    public boolean contains(Object o) throws NoSuchElementException {
-    	if(head.getValue().equals(o)){
-    		return true;
-    	}
-        return false;
-    }
+	@Override
+	public boolean isEmpty() {
+		return size == 0;
+	}
 
-    @Override
-    public Iterator<T> iterator() {
-        
-        return new CustomLinkedListIterator<>();
-    }
-
-    @Override
-    public boolean add(T t) {
-    	if(head.getNext().equals(null)){
-    		head.setNext(new Node(t));
-    		}   
-        return false;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-    	if(head == null) throw new RuntimeException("cannot delete");
-    	  if (o == null) {
-              for (Node<T> x = head; x != null; x = x.getNext()) {
-                  if (x.getValue() == null) {
-                      remove(x);
-                      return true;
-                  }
-              }
-          } else {
-              for (Node<T> x = head; x != null; x = x.next) {
-                  if (o.equals(x.item)) {
-                      remove(x);
-                      return true;
-                  }
-              }
-          }
-          
-        return false;
-    }
-
-    @Override
-    public void clear() {
-    	head.setNext(null);
-    	size=0;
-       
-    }
-
-    @Override
-    public T get(int index) {
-    	/* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return null;
-    }
-
-    @Override
-    public T set(int index, T element) {
-    /*	Node<T> x = node(index);
-        E oldVal = x.item;
-        x.item = element;
-        return oldVal;
-        return null; */
-    }
-
-    @Override
-    public void add(int index, T element) {
-       Node <T> node= new Node<T> (element);
-    }
-
-    @Override
-    public T remove(int index) {
-    	/*	Node temp = head;
-		for(int i=0; i< index - 1 && temp.next != null; i++)
-		{
-			temp = temp.next;
+	@Override
+	public boolean contains(Object o) throws NoSuchElementException {
+		if (head.getValue().equals(o)) {
+			return true;
 		}
-		temp.next = temp.next.next;
-		numNodes--;
-        return null; */
-    }
+		return false;
+	}
 
-    @Override
-    public int indexOf(Object o) {
-    	/* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return 0;
-    }
+	@Override
+	public Iterator<T> iterator() {
 
-    /**
-     * Iterator for CustomLinkedList
-     */
-    private class CustomLinkedListIterator<E> implements Iterator<E> {
-    	 Node currentValue= null; //wartownik
-        @Override
-        public boolean hasNext() {
-             if(currentValue == null && head != null){
-            	 return true;
-             }else if (currentValue != null){
-            	 return currentValue.getNext()!=null; // true
-             }	
-            return false;
-        }
+		return new CustomLinkedListIterator<>();
+	}
 
-        @Override
-        public E next() { // element , WYJATEK!!
-             if(currentValue.getNext() == null) {
-            	 currentValue = head; 
-            	 return currentValue.getValue();}
-             else if(currentValue ==null){
-            	 return null;
-             }
-        }
+	@Override
+	public boolean add(T t) {
+		Node<T> newnode = new Node<T>(t);
+		Node<T> current = head;
+		
+		int count = 0;
+		while (count <= size) {
+			current = current.getNext();
+			count++;
+		}
+		current.setNext(newnode) ;
+		
 
-        @Override
-        public void remove() {
-             
-        }
-    }
+	}
+
+	@Override
+	public boolean remove(Object o) {
+		Node<T> current = head;
+		if(current.getValue().equals(o)){
+			current= current.getNext();
+			return true;
+		} else {
+			
+			return false;
+		}
+
+	}
+
+	@Override
+	public void clear() {
+		size = 0;
+
+	}
+
+	@Override
+	public T get(int index) {
+		Node<T> current = head;
+		int count = 0;
+		while (count <= index) {
+			current = current.getNext();
+			count++;
+		}
+		return current.getValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T set(int index, T element) {
+		Node<T> current = head;
+		int count = 0;
+		while (count <= index) {
+			current = current.getNext();
+			count++;
+		}
+		current.setValue(element);
+		return (T) current;
+	}
+
+	@Override
+	public void add(int index, T element) {
+		Node<T> newnode = new Node<T>(element, null);
+
+		if (index == 0) {
+			newnode.setNext(head);
+			head = newnode;
+		}
+		Node<T> current = head;
+		int count = 0;
+		while (count < index - 1) {
+			current = current.getNext();
+			// if(current == null){
+			// throw new IndexOutOfBoundsException("Cannot find item at position
+			// " + (index-1)); }
+			count++;
+		}
+		newnode.setNext(current.getNext());
+		current.setNext(newnode);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T remove(int index) {
+		if (index == 0) {
+			head = head.getNext();
+		} else {
+		Node<T> current = head;
+		int count = 0;
+		
+		
+		while (count < index - 1) {
+			current = current.getNext();
+			// if (current == null) {// throw new IndexOutOfBoundsException("Cannot find item at position " + (pos-1));}
+			count++;
+		}
+
+		// if (current.getNext() == null) { throw new IndexOutOfBoundsException("Cannot find item at position " + pos);}
+
+		current.setNext(current.getNext().getNext());
+		
+		return (T) current;
+		}
+		
+		return null;	
+	}
+
+	@Override
+	public int indexOf(Object o) {
+		int index = 0;
+	    Node<T> current = head;
+
+	    while (current != null) {
+	        if (current.equals(o)) {
+	            return index;
+	        }
+	        index++;
+	        current = current.getNext();
+	    }
+
+	    return -1;
+	}
+
+	/**
+	 * Iterator for CustomLinkedList
+	 */
+	private class CustomLinkedListIterator<E> implements Iterator<E> {
+		Node<T> current = head; 
+
+		@Override
+		public boolean hasNext() {
+			if (current == null && next() != null) {
+				return true;
+			} else if (current != null) {
+				return current.getNext() != null; // true
+			}
+			return false;
+		//	return (current != null && current.getNext() != null);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public E next() {
+			if (!this.hasNext()) {
+	            throw new IllegalStateException("There is no next");
+	        }
+
+	        current = current.getNext();
+	        return (E) current.getValue();
+		}
+
+		@Override
+		public void remove() {
+
+		}
+	}
 }

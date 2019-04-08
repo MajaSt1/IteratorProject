@@ -38,7 +38,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
     }
 
     @Override
-    public int size() {
+    public int size() { // Integer_MAX
         return value.length; 
     }
 
