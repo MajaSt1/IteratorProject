@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	private Node<T> head;
-	private int size;
+	private long size;
 
 	public CustomLinkedList() {
 		head = null;
@@ -20,7 +20,10 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public int size() {
-		return size;
+		if(size> Integer.MAX_VALUE){
+			
+		}
+		return (int)size;
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	}
 
 	@Override
-	public boolean add(T t) {
+	public boolean add(T t) { //!!
 		Node<T> newnode = new Node<T>(t);
 		Node<T> current = head;
 		
@@ -53,7 +56,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 			count++;
 		}
 		current.setNext(newnode) ;
-		
+		return true;
 
 	}
 
@@ -62,6 +65,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		Node<T> current = head;
 		if(current.getValue().equals(o)){
 			current= current.getNext();
+			
+			size --;
 			return true;
 		} else {
 			
@@ -72,6 +77,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public void clear() {
+		head = null;
 		size = 0;
 
 	}
@@ -133,13 +139,15 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		
 		while (count < index - 1) {
 			current = current.getNext();
-			// if (current == null) {// throw new IndexOutOfBoundsException("Cannot find item at position " + (pos-1));}
+			// if (current == null) {// throw new IndexOutOfBoundsException("Cannot find item at position " + (index-1));}
 			count++;
 		}
 
-		// if (current.getNext() == null) { throw new IndexOutOfBoundsException("Cannot find item at position " + pos);}
+		// if (current.getNext() == null) { throw new IndexOutOfBoundsException("Cannot find item at position " + index);}
 
 		current.setNext(current.getNext().getNext());
+		
+		size --;
 		
 		return (T) current;
 		}
@@ -168,16 +176,13 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	 */
 	private class CustomLinkedListIterator<E> implements Iterator<E> {
 		Node<T> current = head; 
+		Node<T> previous =null; // This method can be called only once per call to next()
+		Node<T> previous2 =null;
+		private boolean removedCalled= false;
 
 		@Override
 		public boolean hasNext() {
-			if (current == null && next() != null) {
-				return true;
-			} else if (current != null) {
-				return current.getNext() != null; // true
-			}
-			return false;
-		//	return (current != null && current.getNext() != null);
+			return (current != null && current.getNext() != null);
 		}
 
 		@SuppressWarnings("unchecked")
@@ -186,14 +191,26 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 			if (!this.hasNext()) {
 	            throw new IllegalStateException("There is no next");
 	        }
-
+			
+			previous2= previous;
+			previous = current;
 	        current = current.getNext();
+	        removedCalled = false;
 	        return (E) current.getValue();
 		}
 
 		@Override
 		public void remove() {
-
+			if (previous == null || removedCalled ) {
+				throw new IllegalStateException();
+			} if (previous2 == null){
+				head = current;
+			} else {
+				previous2.setNext(current);
+			}
+			size --;
+			
+			removedCalled = true;
 		}
 	}
 }
