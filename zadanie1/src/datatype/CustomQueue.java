@@ -1,5 +1,6 @@
 package datatype;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import datastructure.list.CustomArrayList;
@@ -9,40 +10,49 @@ import datastructure.list.CustomArrayList;
  */
 public class CustomQueue<T> extends AbstractCustomQueueAdapter<T> {
     List<T> storage = null;
+    private int initialCapacity;
 
-
-    /* (TODO Starterkit 1) Please introduce a sensible implementation */
-    public CustomQueue(List<T> storage) {
-        this.storage = storage;
+    public CustomQueue(List<T> storage, int initialCapacity) {
+    	if (initialCapacity > 0) {
+    		this.storage = storage;
+		} else if (initialCapacity == 0) {
+			this.storage = null;
+		} else {
+			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+		}
     }
 
     @Override
-    public int size() {
-          /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return 0;
+    public int size() {   
+        return storage.size();
     }
 
     @Override
     public boolean isEmpty() {
-          /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return false;
+        return storage.size()== 0;
     }
 
     @Override
     public boolean add(T t) {
-          /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return false;
+    	for (int i = 0; i < storage.size(); i++) {
+			if (storage.isEmpty()) {
+				storage.add(t);
+
+				return true;
+			} if (initialCapacity < size()){
+				throw new IllegalStateException ("Element cannot be added at this time due to capacity restrictions");
+			}
+		}
+		return false;
     }
 
     @Override
     public T poll() {
-          /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return null;
+    	return storage.remove(0);
     }
 
     @Override
     public T peek() {
-          /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return null;
+        return storage.get(0);
     }
 }

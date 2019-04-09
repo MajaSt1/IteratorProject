@@ -225,7 +225,13 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 		public void remove() {
 			if( elementRemoved)
 	            throw new IllegalStateException("must call next() before calling remove()");
-
+			
+			Object[] newValue = new Object[value.length - 1];
+	        System.arraycopy(value, 0, newValue, 0, value.length - 1); 
+	 
+	        value = newValue;
+	        
+	        elementRemoved = true;
 
 		}
 	}

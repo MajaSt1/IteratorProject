@@ -3,12 +3,15 @@ package datastructure.list.test;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 
 import datastructure.list.CustomLinkedList;
 
 public class LinkedListTest {
+	
+	List<Integer> custom;
 
 	@Test
 	public void testSize() {

@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
+import javax.naming.SizeLimitExceededException;
+
 /**
  * List based on recursively related objects
  *
@@ -12,18 +14,15 @@ import java.util.NoSuchElementException;
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	private Node<T> head;
-	private long size;
+	private int size;
 
 	public CustomLinkedList() {
 		head = null;
 	}
 
 	@Override
-	public int size() {
-		if(size> Integer.MAX_VALUE){
-			
-		}
-		return (int)size;
+	public int size()  {
+		return size;
 	}
 
 	@Override
