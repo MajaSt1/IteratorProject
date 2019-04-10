@@ -7,9 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import datastructure.list.CustomArrayList;
 import datastructure.list.CustomLinkedList;
 import datastructure.list.Node;
 
@@ -20,10 +22,11 @@ public class LinkedListTest {
 	@Before 
 	public void list(){
 		//
-		custom= new CustomLinkedList<>(3);
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
+		   custom= new CustomLinkedList<>(4);
+			custom.add(1);
+			custom.add(2);
+			custom.add(6);
+			custom.add(5);
 	} 
 	
 
@@ -33,17 +36,12 @@ public class LinkedListTest {
 		//
 		int size=custom.size();
 		//
-		System.out.println(size);
-		assertEquals(size, 3);	
+		assertEquals(size, 4);	
 	}
 
 	@Test
 	public void testIsEmpty() {
 		//
-		custom= new CustomLinkedList<>(3);
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		custom.clear();
 		//
 		boolean isEmpty=custom.isEmpty();
@@ -54,9 +52,6 @@ public class LinkedListTest {
 	@Test
 	public void testIsNotEmpty() {
 		//
-		custom= new CustomLinkedList<>(2);
-		custom.add(2);
-		custom.add(6);
 		//
 		boolean isEmpty=custom.isEmpty();
 		//
@@ -99,26 +94,22 @@ public class LinkedListTest {
 		assertTrue(addT);
 	}
 	
-	/*@Test
-	public void testAddTReturnFalse() {
+	@Test
+	public void testAddTReturnTrueWhenAddNull() {
 		//
-		custom= new CustomLinkedList<>();
-		int size=custom.size();
+		custom= new CustomLinkedList<>(2);
 		//
-		boolean addT= custom.add(new Integer(56));
+		boolean addT= custom.add(null);
 		//
 		assertTrue(addT);
-	} */
+	} 
 
 	@Test
 	public void testRemoveObjectReturnTrue() {
 		//
-		custom= new CustomLinkedList<>(2);
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
+	
 		//
-		boolean removeObj= custom.remove(new Integer(6));
+		boolean removeObj= custom.remove(new Integer(4));
 		//
 		assertTrue(removeObj);
 	}
@@ -152,14 +143,9 @@ public class LinkedListTest {
 		@SuppressWarnings("unchecked")
 		T getValue = (T) custom.get(1);
 		//
-		assertEquals(getValue, new Integer(6));
+		assertEquals(getValue, new Integer(1));
 	}
 	
-	@Test(expected = IndexOutOfBoundsException.class )
-	public void testNotGet(){
-		
-	}
-
 	@Test
 	public <T> void testSet() {
 		//
@@ -168,14 +154,10 @@ public class LinkedListTest {
 		T current = (T) custom.set(1, new Integer(23));
 		int size=custom.size();
 		//
-		assertEquals(new Integer (23), current);
-		assertEquals(3, size);
+		assertEquals(new Integer (2), current);
+		assertEquals(4, size);
 	}
-	@Test(expected= IndexOutOfBoundsException.class)
-	public void throwExceptionTestSet(){
-		
-	}
-
+	
 	@Test
 	public <T> void testAddIntTIndex0() {
 		//
@@ -186,7 +168,7 @@ public class LinkedListTest {
 		int size= custom.size();
 		//
 		assertEquals(element, new Integer(1));
-		assertEquals(4, size);
+		assertEquals(5, size);
 	}
 
 	@Test
@@ -195,30 +177,23 @@ public class LinkedListTest {
 		//
 		custom.add(3, new Integer(1));
 		@SuppressWarnings("unchecked")
-		T element= (T) custom.get(4);
+		T element= (T) custom.get(3);
 		int size= custom.size();
 		//
 		assertEquals(element, new Integer(1));
-		assertEquals(4, size);
+		assertEquals(5, size);
 	}
 	
-	@Test(expected= IndexOutOfBoundsException.class)
-	public <T> void testAddIntTOutOfBonds() {
-		//
-		//
-		custom.add(4, new Integer(1));
-		@SuppressWarnings("unchecked")
-		T element= (T) custom.get(4);	
-	}
-
 	@Test
 	public void testRemoveIntIndex0() {
 		//
 		//
+		int size1 = custom.size();
 		custom.remove(0);
-		int size = custom.size();
+		int size2 = custom.size();
 		//
-		assertEquals(2,size);
+		assertEquals(4,size1);
+		assertEquals(3,size2);
 	}
 	
 	@Test
@@ -236,19 +211,26 @@ public class LinkedListTest {
 		assertEquals(remove, new Integer(2));
 		assertEquals(2,size);
 	}
+	
+	@Test(expected=NoSuchElementException.class)
+	public void testRemoveIntException() {
+		//
+		custom= new CustomLinkedList<>(0);
+		//
+		custom.remove(3);
+	}
 
 	@Test
 	public void testIndexOf() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCustomLinkedList() {
-		fail("Not yet implemented");
+	    //
+		//
+		int index= custom.indexOf(new Integer(6));
+		//
+		assertEquals(index, 3);
 	}
 	
 	//@Test
-/*	public void iterate_through_linkedList(){
+/*	public void iterateThroughLinkedList(){
 		//
 		custom.add(2);
 		custom.add(3);
@@ -265,25 +247,47 @@ public class LinkedListTest {
 	
 	@Test
 	public void testIteratorHasNextTrue() {
+		//
+		custom= new CustomLinkedList<>(3);
+		custom.add(2);
+		custom.add(3);
+		custom.add(4);
+		//
+		boolean hasNext= custom.iterator().hasNext();
+		//
+		assertTrue(hasNext);
 		
 	}
 	
 	@Test(expected= IllegalStateException.class )
 	public void testIteratorNextException() {
-	}
-	
-	@Test(expected = NoSuchElementException.class)
-	public void testIteratorNextThrowException() {
+		//
+		custom= new CustomLinkedList<>();
+		//
+		custom.iterator().next();
 		
 	}
 	@Test
-	public void testIteratorNextValue() {}
-	
-	@ Test 
-	public void testIteratorRemove(){}
+	public <E> void testIteratorNextValue() {
+		//
+		
+		//
+	     custom.iterator().hasNext();
+		@SuppressWarnings("unchecked")
+		E next= (E) custom.iterator().next();
+		//
+		Assert.assertEquals(1, next);	
+
+	}
 	
 	@Test(expected= IllegalStateException.class)
-	public void testIteratorRemoveException(){}
+	public void testIteratorRemoveException(){
+		//
+		//
+		custom.iterator().remove();
+		custom.iterator().remove();
+		//
+	}
 	
 	}
 

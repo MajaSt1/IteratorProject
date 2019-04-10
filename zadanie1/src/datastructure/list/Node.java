@@ -4,8 +4,8 @@ package datastructure.list;
  * Component of linked list that stores a value and reference to the next element.
  */
 public class Node <T> {
-	private T value;
-	 Node<T> next; //pointer
+	public T value;
+	public Node<T> next; //pointer
 	
 	public Node(T value){
 		this.value=value;

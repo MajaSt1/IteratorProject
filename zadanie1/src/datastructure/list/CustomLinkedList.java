@@ -13,11 +13,12 @@ import javax.naming.SizeLimitExceededException;
  */
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
-	private Node<T> head;
-	private static int size;
+	private Node<T> head ;
+	private int size;
 
 	public CustomLinkedList() {
 		head = null;
+		size = 0;
 	}
 	
 	public CustomLinkedList(T element){
@@ -50,37 +51,28 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public boolean add(T t) {
-		if(head.equals(null)){
-			
-		Node temp = head;
-		
-		head = new Node(t);
-		head.next = temp;
-		
-		
-		return true; 
-		} else if (head !=null){
-			Node temp = head;
-			
-			while(temp.next != null)
-			{
-				temp = temp.next;
-				
-				size ++;
-			}
-			
-			temp.next = new Node(t);
-			
-			return true;
-		}
-		return false;
 
+		if (head.equals(null)) {
+			head.value=t;
+		}
+		Node<T> temp = new Node<T>(t);
+		Node<T> current = head;
+
+		if (current != null) {
+			while (current.getNext() != null) {
+				current = current.getNext();
+			}
+			current.setNext(temp);
+		}
+		size++;
+
+		return true;
 	}
 
 	@Override
 	public boolean remove(Object o) {
-		Node<T> current = head;
-		if(current.getValue().equals(o)){
+		Node<T> current =  head;
+		if(current.value.equals(o)){
 			current= current.getNext();
 			
 			size --;
@@ -100,39 +92,41 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	}
 
 	@Override
-	public T get(int index) throws IndexOutOfBoundsException {
+	public T get(int index)  {
+		if (index < 0 || index >= size) {
+			throw new IllegalArgumentException("index was out of bounds");
+		}
+		
 		Node<T> current = head;
 		int count = 0;
-		while (count <= index) {
-			current = current.getNext();
-			count++;
-		}	
-		return current.getValue();
+		for(int i =0; i < index; i ++){
+			current = current.next;
+		}
+		return current.value;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public T set(int index, T element) throws IndexOutOfBoundsException {
-		Node<T> current = head;
+		Node <T> current = head;
 		int count = 0;
 		while (count <= index) {
 			current = current.getNext();
 			count++;
 		}
-		Node<T> newnode = new Node<T>(element);
-		 current= newnode;
-		return (T) current;
+		 T e= current.value;
+		 current.value= element;
+		return e;
 	}
 
 	@Override
-	public void add(int index, T element) {
+	public void add(int index, T element)  {
 		Node<T> newnode = new Node<T>(element);
 
 		if (index == 0) {
 			newnode.setNext(head);
 			head = newnode;
 			
-			size++;
 		}
 		Node<T> current = head;
 		int count = 0;
@@ -149,23 +143,25 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T remove(int index) {
-		if (index == 0) {
-			head = head.getNext();
+		if (index < 0 || index >= size) {
+			throw new NoSuchElementException();
+			
+		} else if (index == 0) {
+			size--;
+			T temp = head.value;
+			head = head.next;
+			
+			return temp;
 		} else {
-		Node<T> current = head;
-		int count = 0;
-		
-		while (count < index - 1) {
-			current = current.getNext();
-			count++;
-		}
-
-		current.setNext(current.getNext().getNext());
-		size --;
-		
-		return (T) current;
-		}
-			return null;	
+			Node<T> current = head;
+			for  (int i = 0; i < index - 1; i++) {
+				current = current.next; 
+			}
+			current.next = current.next.next;
+			size--;
+			
+			return current.value;
+		}	
 	}
 
 	@Override
@@ -174,7 +170,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	    Node<T> current = head;
 
 	    while (current != null) {
-	        if (current.equals(o)) {
+	        if (current.value.equals(o)) {
 	            return index;
 	        }
 	        index++;
@@ -191,7 +187,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		Node<T> current = head; 
 		Node<T> previous =null; // This method can be called only once per call to next()
 		Node<T> previous2 =null;
-		private boolean removedCalled= false;
+		private boolean removedCalled= true;
 
 		@Override
 		public boolean hasNext() {
@@ -213,8 +209,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		}
 
 		@Override
-		public void remove() {
-			if (previous == null || removedCalled ) {
+		public void remove()  {
+			if (previous == null || removedCalled  ) {
 				throw new IllegalStateException();
 			} if (previous2 == null){
 				head = current;
