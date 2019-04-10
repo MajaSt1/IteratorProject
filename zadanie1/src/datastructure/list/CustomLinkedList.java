@@ -3,6 +3,7 @@ package datastructure.list;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.naming.SizeLimitExceededException;
 
@@ -13,7 +14,7 @@ import javax.naming.SizeLimitExceededException;
  */
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
-	private Node<T> head ;
+	private Node<T> head;
 	private int size;
 
 	public CustomLinkedList() {
@@ -52,8 +53,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	@Override
 	public boolean add(T t) {
 
-		if (head.equals(null)) {
-			head.value=t;
+		if (head==null) {
+			Node<T> head = new Node<T>(t);
 		}
 		Node<T> temp = new Node<T>(t);
 		Node<T> current = head;
@@ -78,10 +79,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 			size --;
 			return true;
 		} else {
-			
-			return false;
+			throw new IllegalArgumentException("Array is empty!");
 		}
-
 	}
 
 	@Override
@@ -102,7 +101,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		for(int i =0; i < index; i ++){
 			current = current.next;
 		}
-		return current.value;
+	//	Optional<T> nullable= Optional.of(current.value);
+		return (T) current.value;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -148,6 +148,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 			
 		} else if (index == 0) {
 			size--;
+	
 			T temp = head.value;
 			head = head.next;
 			
@@ -187,7 +188,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		Node<T> current = head; 
 		Node<T> previous =null; // This method can be called only once per call to next()
 		Node<T> previous2 =null;
-		private boolean removedCalled= true;
+		private boolean removedCalled= false;
 
 		@Override
 		public boolean hasNext() {

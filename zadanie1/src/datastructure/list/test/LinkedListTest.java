@@ -114,13 +114,12 @@ public class LinkedListTest {
 		assertTrue(removeObj);
 	}
 	
-	@Test
+	@Test(expected= IllegalArgumentException.class)
 	public void testRemoveObjectReturnFalse() {
 		//
 		//
 		boolean removeObjF= custom.remove(new Integer(37));
 		//
-		assertFalse(removeObjF);
 	}
 
 	@Test

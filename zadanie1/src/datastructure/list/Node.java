@@ -1,5 +1,7 @@
 package datastructure.list;
 
+import java.util.Optional;
+
 /**
  * Component of linked list that stores a value and reference to the next element.
  */

@@ -8,16 +8,9 @@ import java.util.List;
  */
 public class CustomQueue<T> extends AbstractCustomQueueAdapter<T> {
     private List<T> storage;
-    private int initialCapacity;
 
-    public CustomQueue(List<T> storage, int initialCapacity) {
-    	if (initialCapacity > 0) {
+    public CustomQueue(List<T> storage) {
     		this.storage = storage;
-		} else if (initialCapacity == 0) {
-			this.storage = null;
-		} else {
-			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
-		}
     }
 
     @Override
@@ -37,8 +30,6 @@ public class CustomQueue<T> extends AbstractCustomQueueAdapter<T> {
 				storage.add(t);
 
 				return true;
-			} if (initialCapacity < size()){
-				throw new IllegalStateException ("Element cannot be added at this time due to capacity restrictions");
 			}
 		}
 		return false;

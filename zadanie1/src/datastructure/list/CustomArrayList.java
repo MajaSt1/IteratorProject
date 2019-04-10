@@ -80,16 +80,9 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 	@Override
 	public boolean add(T t) {
 		increasingArrayLength();
-
-		for (int i = 0; i < value.length; i++) {
-			if (value[i] == null) {
-				value[i] = t;
-
-				size ++;
-				return true;
-			}
-		}
-		return false;
+		
+        value[size++] = t;
+        return true;
 	}
 
 	@Override
@@ -160,6 +153,8 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 			for (int i = index + 1; i < value.length; i++)
 				result[i] = value[i - 1];
+			
+			size ++;
 		}
 	} 
 
@@ -222,7 +217,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 				@SuppressWarnings("unchecked")
 				E nextValue = (E) value[current++];
 				
-				elementRemoved= true;
+				elementRemoved= false;
 				return nextValue;
 			}
 		}
@@ -231,14 +226,14 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 		public void remove() {
 			if( elementRemoved ){
 	            throw new IllegalStateException("must call next() before calling remove()");}
-			
+			else{
 			Object[] newValue = new Object[value.length - 1];
 	        System.arraycopy(value, 0, newValue, 0, value.length - 1); 
 	 
 	        value = newValue;
 	        
 	        elementRemoved = true;
-			
+			}
 		}
 	}
 }

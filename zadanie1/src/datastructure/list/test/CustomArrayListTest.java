@@ -111,15 +111,6 @@ public class CustomArrayListTest<T> {
 	}
 
 	@Test
-	public void shouldAddtestT() {
-		//
-		//
-		boolean add = custom.add(new Integer(6));
-	    //
-		assertTrue(add);
-	}
-
-	@Test
 	public void shouldRemoveObjectTest() {
 		//
 		//
@@ -220,12 +211,31 @@ public class CustomArrayListTest<T> {
 	public void testAddIntT() {
 		//
 		//
-		custom.add(1,new Integer(3));
+		int size1= custom.size();
+		custom.add(2,new Integer(18));
 		@SuppressWarnings("unchecked")
-		T element= (T) custom.get(1);
+		T element= (T) custom.get(2);
+		
         //
-		assertEquals(element, 3);
-		assertEquals(custom.size(), 5);	
+		assertEquals(4,size1);
+		assertEquals(element, new Integer(18));
+	//	assertEquals( custom.size(), 5);	
+	}
+	
+	@Test
+	public void testAddIntTNull() {
+		//
+		//
+		int size1= custom.size();
+		custom.add(3,null);
+		@SuppressWarnings("unchecked")
+		T element= (T) custom.get(3);
+		
+        //
+		assertEquals(4,size1);
+		assertEquals(element, null);
+		assertEquals( custom.size(), 4);	
+		
 	}
 	
 	@Test(expected= IndexOutOfBoundsException.class)
@@ -259,7 +269,6 @@ public class CustomArrayListTest<T> {
 
 	@Test
 	public void testIncreasingArrayLength() {
-		//
 		
 	}
 	
@@ -271,22 +280,14 @@ public class CustomArrayListTest<T> {
 		assertTrue(hasNext);
 	}
 	
-	@Test(expected= IllegalStateException.class )
+	@Test(expected= NoSuchElementException.class )
 	public void testIteratorNextException() {
 		//
+		custom= new CustomArrayList<>(0);
 		//
+		custom.iterator().hasNext();
         custom.iterator().next();
 		//
-	}
-
-	@Test(expected = NoSuchElementException.class)
-	public void testIteratorNextThrowException() {
-		//
-		custom= new CustomArrayList<>();
-		//
-		custom.iterator().hasNext();
-		custom.iterator().hasNext();
-		custom.iterator().next();
 	}
 
 	@Test
@@ -322,18 +323,19 @@ public class CustomArrayListTest<T> {
 		Assert.assertEquals(2, size);	
 	}
 	
-	@Test(expected= IllegalStateException.class)
-	public void testIteratorRemoveException(){
+	//@Test
+/*	public void iterateThroughArrayList(){
 		//
-		custom= new CustomArrayList<Integer>(3);
 		custom.add(2);
 		custom.add(3);
-		custom.add(7);
-
+		custom.add(4);
 		//
-	     custom.iterator().hasNext();
-		 custom.iterator().remove();
-		//
-	}
+		
+		int count=0;
+		while(custom.iterator().hasNext()){
+			Integer element= custom.iterator().next();
+			count ++;}
+	   //
+		assertEquals(count, 3); */
 
 }
