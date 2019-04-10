@@ -14,10 +14,14 @@ import javax.naming.SizeLimitExceededException;
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	private Node<T> head;
-	private int size;
+	private static int size;
 
 	public CustomLinkedList() {
 		head = null;
+	}
+	
+	public CustomLinkedList(T element){
+		head = new Node<T>(element);
 	}
 
 	@Override
@@ -46,21 +50,30 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public boolean add(T t) {
-		Node<T> newnode = new Node<T>(t);
-		Node<T> current = head;
-		if(size > 0){
+		if(head.equals(null)){
 			
-		int count = 0;
-		while (count <= size) {
-			current = current.getNext();
-			count++;
-		}
-		current.setNext(newnode) ;
+		Node temp = head;
 		
-		return true;
-		} else {
-			return false;
+		head = new Node(t);
+		head.next = temp;
+		
+		
+		return true; 
+		} else if (head !=null){
+			Node temp = head;
+			
+			while(temp.next != null)
+			{
+				temp = temp.next;
+				
+				size ++;
+			}
+			
+			temp.next = new Node(t);
+			
+			return true;
 		}
+		return false;
 
 	}
 
@@ -106,17 +119,20 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 			current = current.getNext();
 			count++;
 		}
-		current.setValue(element);
+		Node<T> newnode = new Node<T>(element);
+		 current= newnode;
 		return (T) current;
 	}
 
 	@Override
 	public void add(int index, T element) {
-		Node<T> newnode = new Node<T>(element, null);
+		Node<T> newnode = new Node<T>(element);
 
 		if (index == 0) {
 			newnode.setNext(head);
 			head = newnode;
+			
+			size++;
 		}
 		Node<T> current = head;
 		int count = 0;
@@ -126,6 +142,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		}
 		newnode.setNext(current.getNext());
 		current.setNext(newnode);
+		
+		size++;
 	}
 
 	@SuppressWarnings("unchecked")

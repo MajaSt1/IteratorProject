@@ -38,14 +38,18 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 	private void increasingArrayLength() {
 		if (initialCapacity != 0) {
-			long percentage = Math.round(size / initialCapacity);
-
-			if (percentage >= 0.9) {
-				Math.addExact(this.initialCapacity, 4);
-			} else if (percentage <= 0.6) {
-				Math.subtractExact(this.initialCapacity, 4);
+			if ( Math.round(value.length / initialCapacity) >= 0.9){
+				String[] newArray = new String[value.length + 4];
+			    System.arraycopy(value, 0, newArray, 0, value.length);
+			    
+			    value = newArray;
+			} else if ( Math.round(value.length / initialCapacity) <= 0.6){
+				String[] newArray = new String[value.length - 4];
+			    System.arraycopy(value, 0, newArray, 0, value.length);
+			    
+			    value = newArray;
+				}
 			}
-		}
 	}
 	
 	 private void rangeCheck(int index) {
@@ -60,7 +64,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public boolean isEmpty() {
-		return initialCapacity == 0;
+		return size == 0;
 	}
 
 	@Override
@@ -81,6 +85,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 			if (value[i] == null) {
 				value[i] = t;
 
+				size ++;
 				return true;
 			}
 		}
@@ -112,9 +117,6 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public void clear() {
-		// for (int i = 0; i < size(); i++)
-		// value[i] = null;
-
 		size = 0;
 	}
 
@@ -123,7 +125,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 		rangeCheck(index);
 		
 		@SuppressWarnings("unchecked")
-		final T element = (T) value[index];
+		 T element = (T) value[index];
 
 		return element;
 	}
@@ -133,10 +135,10 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 		rangeCheck(index);
 		
 		@SuppressWarnings("unchecked")
-		T e = (T) value[index];
+		T oldValue = (T) value[index];
 		value[index] = element;
 
-		return e;
+		return oldValue;
 	}
 
 	@Override
@@ -153,6 +155,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 			for (int i = 0; i < index; i++)
 				result[i] = value[i];
+			
 			result[index] = element;
 
 			for (int i = index + 1; i < value.length; i++)
@@ -162,15 +165,19 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public T remove(int index) {
+		increasingArrayLength();
+		
 		if (size != 0) {
 			@SuppressWarnings("unchecked")
 			T oldValue = (T) value[index];
-
-			int numMoved = size - index - 1;
-			if (numMoved > 0)
-				System.arraycopy(value, index + 1, value, index, numMoved);
-			value[--size] = null;
-
+			
+			for(int i = 0; i < value.length; i++){
+	            if(value[i] == oldValue){
+	                for(int n = i; n < value.length - 1; n++){
+	                    value[n] = value[n+1];
+	                }
+	                break; }
+	        }
 			return oldValue;
 
 		} else {
@@ -181,9 +188,9 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 	@Override
 	public int indexOf(Object o) {
-		if (value != null) {
+		if (size != 0) {
 			for (int i = 0; i < value.length; i++) {
-				if (value[i] == o) {
+				if (value[i].equals(o)) {
 					return i;
 				}
 			}
@@ -202,14 +209,13 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 		@Override
 		public boolean hasNext() {
 			if (current < CustomArrayList.this.value.length) {
-				return true;
-			} else {
-				return false;
-			}
+				return true;} else {
+					return false;
+				}
 		}
 
 		@Override
-		public E next() throws NoSuchElementException {
+		public E next()  {
 			if (!hasNext()) {
 				throw new NoSuchElementException("Array is empty!");
 			} else {

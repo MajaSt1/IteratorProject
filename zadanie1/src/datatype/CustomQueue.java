@@ -1,15 +1,13 @@
 package datatype;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import datastructure.list.CustomArrayList;
 
 /**
  * FIFO queue
  */
 public class CustomQueue<T> extends AbstractCustomQueueAdapter<T> {
-    List<T> storage = null;
+    private List<T> storage;
     private int initialCapacity;
 
     public CustomQueue(List<T> storage, int initialCapacity) {

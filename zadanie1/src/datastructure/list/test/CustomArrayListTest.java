@@ -2,12 +2,10 @@ package datastructure.list.test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import datastructure.list.CustomArrayList;
@@ -16,7 +14,7 @@ import datastructure.list.CustomArrayList;
 public class CustomArrayListTest<T> {
 	
 
-    List<Integer> custom;
+    CustomArrayList<Integer> custom;
 
 	@Test
 	public void testDefaultSize() {
@@ -28,20 +26,34 @@ public class CustomArrayListTest<T> {
 		Assert.assertEquals(size, 10);
 	}
 	
+	@Before
+	public void doList(){
+    custom= new CustomArrayList<>(4);
+	custom.add(1);
+	custom.add(2);
+	custom.add(4);
+	custom.add(5);
+	}
+	
 	@ Test
 	public void testRandomSize(){
-		//
-		custom= new ArrayList<>(4);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
+	
 		//
 		assertEquals(custom.size(),4);
 	}
 
 	@Test
 	public void testIsEmpty() {
+		//
+		//
+		custom.clear();
+		boolean isEmpty = custom.isEmpty();
+		//
+		Assert.assertTrue(isEmpty);
+	}
+	
+	@Test
+	public void testIsEmptyClear() {
 		//
 		custom = new CustomArrayList<>(0);
 		//
@@ -53,12 +65,6 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testIndexOf() {
 		//
-		custom= new ArrayList<>(4);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
-		//
 		int index= custom.indexOf(new Integer(4));
 		//
 		Assert.assertEquals(2, index);
@@ -67,7 +73,7 @@ public class CustomArrayListTest<T> {
 	@ Test
 	public void testNullIndex(){
 		//
-		custom= new ArrayList <>();
+		custom= new CustomArrayList <>();
 		//
 		int index= custom.indexOf(null);
 		//
@@ -77,13 +83,9 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testContains() {
 		//
-		custom= new ArrayList<>(4);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
 		boolean contains= custom.contains(new Integer(1));
+	
 		//
 		assertTrue(contains);
 	}
@@ -91,11 +93,6 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void shouldNotContainstest(){
 		//
-		custom= new ArrayList<>(4);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
 		boolean contains= custom.contains("integer");
 		//
@@ -103,24 +100,19 @@ public class CustomArrayListTest<T> {
 	}
 	
 	@Test
-	public void shouldNotContainsTestNull(){ 
+	public void shouldNotContainsTestEmpty(){ 
 		//
-		custom= new ArrayList<>();
+		custom= new CustomArrayList<>();
 		//
-		boolean containsNull= custom.contains("null");
+		boolean containsEmpty= custom.contains("null");
 		//
-		assertFalse(containsNull);
+		assertFalse(containsEmpty);
 		
 	}
 
 	@Test
 	public void shouldAddtestT() {
 		//
-		custom= new ArrayList<>(5);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
 		boolean add = custom.add(new Integer(6));
 	    //
@@ -130,11 +122,6 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void shouldRemoveObjectTest() {
 		//
-		custom= new ArrayList<>(5);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
 		boolean removeObject= custom.remove(new Integer(5));
 		//
@@ -144,7 +131,7 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void shouldRemoveNullObjectTest() {
 		//
-		custom= new ArrayList<>(5);
+		custom= new CustomArrayList<>(5);
 		custom.add(1);
 		custom.add(2);
 		custom.add(4);
@@ -158,13 +145,8 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void shouldNotRemoveObjectTest() {
 		//
-		custom= new ArrayList<>(5);
-		custom.add(1);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
-		boolean removeObject= custom.remove(null);
+		boolean removeObject= custom.remove("test");
 		//
 		assertFalse(removeObject);
 	}
@@ -172,7 +154,8 @@ public class CustomArrayListTest<T> {
 	@Test (expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionRemoveObjectTest() {
 		//
-		custom = new ArrayList<>(0);
+		//
+		custom = new CustomArrayList<>(0);
 		//
 		custom.remove(new Integer(1));
 	}
@@ -180,22 +163,18 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testGet() {
 		//
-		custom= new ArrayList<>(5);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
 		@SuppressWarnings("unchecked")
 		T element = (T) custom.get(0);
 		//
-		assertEquals(element, new Integer(6));
+		assertEquals(element, new Integer(1));
 	}
 	
 	@Test(expected = IndexOutOfBoundsException.class )
 	public void testNotGet(){
 		//
-		custom= new ArrayList<>(1);
+		//
+		custom= new CustomArrayList<>(1);
 		custom.add(1);
 		//
 		T element = (T) custom.get(-1);	
@@ -204,21 +183,21 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testSet() {
 		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
 		//
 		@SuppressWarnings("unchecked")
 		T element = (T) custom.set(0, new Integer(8));
+		@SuppressWarnings("unchecked")
+		T newElement= (T) custom.get(0);
 		//
-		assertEquals(element, new Integer(6));
+		assertEquals(element, new Integer(1));
+		assertEquals(newElement, new Integer(8));
 	}
 	
 	@Test(expected= IndexOutOfBoundsException.class)
 	public void throwExceptionTestSet(){
 		//
-		custom= new ArrayList<>(4);
+		//
+		custom= new CustomArrayList<>(4);
 		custom.add(1);
 		//
 		@SuppressWarnings("unchecked")
@@ -228,10 +207,6 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testAddIntTAtBorder() {
 		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
 		//
 		custom.add(3, new Integer(2));
 		@SuppressWarnings("unchecked")
@@ -244,53 +219,46 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testAddIntT() {
 		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
-		custom.add(5);
 		//
-		custom.add(1,new Integer(2));
+		custom.add(1,new Integer(3));
 		@SuppressWarnings("unchecked")
-		T element= (T) custom.get(2);
+		T element= (T) custom.get(1);
         //
-		assertEquals(element, 2);
+		assertEquals(element, 3);
 		assertEquals(custom.size(), 5);	
 	}
 	
 	@Test(expected= IndexOutOfBoundsException.class)
 	public void shouldThrowExceptionAddIntT(){
-		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
+     	//
+
 		//
 		custom.add(4, new Integer(2));
 	}
 	
 	@Test
 	public void shouldReturnOldValueRemoveIntTest() {
+	    //
 		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
+		@SuppressWarnings("unchecked")
+		T element= (T)custom.remove(2);
+		int size= custom.size();
+		//
+		assertEquals(element, 4);
+	}
+	
+	@Test (expected= IllegalArgumentException.class)
+	public void shouldReturnExceptionRemoveIntTest() {
+		//
+		custom= new CustomArrayList<>();
 		//
 		@SuppressWarnings("unchecked")
 		T element= (T)custom.remove(2);
 		//
-		assertEquals(element, 4);
-		assertEquals(custom.size(),2);
 	}
 
 	@Test
 	public void testIncreasingArrayLength() {
-		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
 		//
 		
 	}
@@ -298,38 +266,33 @@ public class CustomArrayListTest<T> {
 	@Test
 	public void testIteratorHasNextTrue() {
 		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
-		//
 		boolean hasNext= custom.iterator().hasNext();
 		//
 		assertTrue(hasNext);
 	}
 	
-	@Test
-	public void testIteratorHasNextFalse() {
+	@Test(expected= IllegalStateException.class )
+	public void testIteratorNextException() {
 		//
-		custom= new ArrayList<>();
 		//
-		boolean hasNext = custom.iterator().hasNext();
+        custom.iterator().next();
 		//
-		assertFalse(hasNext);
 	}
 
 	@Test(expected = NoSuchElementException.class)
 	public void testIteratorNextThrowException() {
 		//
-		custom= new ArrayList<>(3);
+		custom= new CustomArrayList<>();
 		//
+		custom.iterator().hasNext();
+		custom.iterator().hasNext();
 		custom.iterator().next();
 	}
 
 	@Test
 	public void testIteratorNextValue() {
-		//
-		custom= new ArrayList<>(3);
+      	//
+		custom= new CustomArrayList<Integer>(3);
 		custom.add(2);
 		custom.add(3);
 		custom.add(7);
@@ -344,10 +307,11 @@ public class CustomArrayListTest<T> {
 	@ Test 
 	public void testIteratorRemove(){
 		//
-		custom= new ArrayList<>(3);
+		custom= new CustomArrayList<Integer>(3);
 		custom.add(2);
 		custom.add(3);
 		custom.add(7);
+
 		//
 	     custom.iterator().hasNext();
 		 custom.iterator().next();
@@ -358,5 +322,18 @@ public class CustomArrayListTest<T> {
 		Assert.assertEquals(2, size);	
 	}
 	
+	@Test(expected= IllegalStateException.class)
+	public void testIteratorRemoveException(){
+		//
+		custom= new CustomArrayList<Integer>(3);
+		custom.add(2);
+		custom.add(3);
+		custom.add(7);
+
+		//
+	     custom.iterator().hasNext();
+		 custom.iterator().remove();
+		//
+	}
 
 }

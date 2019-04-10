@@ -5,32 +5,46 @@ import static org.junit.Assert.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import datastructure.list.CustomLinkedList;
+import datastructure.list.Node;
 
 public class LinkedListTest {
 	
-	List<Integer> custom;
+	CustomLinkedList<Integer> custom;
+	
+	@Before 
+	public void list(){
+		//
+		custom= new CustomLinkedList<>(3);
+		custom.add(2);
+		custom.add(6);
+		custom.add(7);
+	} 
 	
 
 	@Test
 	public void testSize() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
 		//
 		int size=custom.size();
 		//
-		assertEquals(size, 2);	
+		System.out.println(size);
+		assertEquals(size, 3);	
 	}
 
 	@Test
 	public void testIsEmpty() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(3);
+		custom.add(2);
+		custom.add(6);
+		custom.add(7);
+		custom.clear();
 		//
 		boolean isEmpty=custom.isEmpty();
 		//
@@ -40,7 +54,7 @@ public class LinkedListTest {
 	@Test
 	public void testIsNotEmpty() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(2);
 		custom.add(2);
 		custom.add(6);
 		//
@@ -52,7 +66,7 @@ public class LinkedListTest {
 	@Test
 	public void testContainsValueTrue() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(2);
 		custom.add(2);
 		custom.add(6);
 		//
@@ -64,7 +78,7 @@ public class LinkedListTest {
 	@Test
 	public void testContainsValueFalse() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(2);
 		custom.add(2);
 		custom.add(6);
 		//
@@ -76,7 +90,7 @@ public class LinkedListTest {
 	@Test
 	public void testAddTReturnTrue() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(2);
 		custom.add(2);
 		custom.add(6);
 		//
@@ -85,10 +99,10 @@ public class LinkedListTest {
 		assertTrue(addT);
 	}
 	
-	//@Test
-	/*public void testAddTReturnFalse() {
+	/*@Test
+	public void testAddTReturnFalse() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>();
 		int size=custom.size();
 		//
 		boolean addT= custom.add(new Integer(56));
@@ -99,7 +113,7 @@ public class LinkedListTest {
 	@Test
 	public void testRemoveObjectReturnTrue() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(2);
 		custom.add(2);
 		custom.add(6);
 		custom.add(7);
@@ -112,10 +126,6 @@ public class LinkedListTest {
 	@Test
 	public void testRemoveObjectReturnFalse() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		boolean removeObjF= custom.remove(new Integer(37));
 		//
@@ -125,7 +135,7 @@ public class LinkedListTest {
 	@Test
 	public void testClear() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(2);
 		custom.add(2);
 		custom.add(6);
 		//
@@ -138,10 +148,6 @@ public class LinkedListTest {
 	@Test
 	public <T> void testGet() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		@SuppressWarnings("unchecked")
 		T getValue = (T) custom.get(1);
@@ -157,10 +163,6 @@ public class LinkedListTest {
 	@Test
 	public <T> void testSet() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		@SuppressWarnings("unchecked")
 		T current = (T) custom.set(1, new Integer(23));
@@ -177,10 +179,6 @@ public class LinkedListTest {
 	@Test
 	public <T> void testAddIntTIndex0() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		custom.add(0, new Integer(1));
 		@SuppressWarnings("unchecked")
@@ -194,14 +192,10 @@ public class LinkedListTest {
 	@Test
 	public <T> void testAddIntTIndex() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		custom.add(3, new Integer(1));
 		@SuppressWarnings("unchecked")
-		T element= (T) custom.get(3);
+		T element= (T) custom.get(4);
 		int size= custom.size();
 		//
 		assertEquals(element, new Integer(1));
@@ -211,10 +205,6 @@ public class LinkedListTest {
 	@Test(expected= IndexOutOfBoundsException.class)
 	public <T> void testAddIntTOutOfBonds() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		custom.add(4, new Integer(1));
 		@SuppressWarnings("unchecked")
@@ -224,10 +214,6 @@ public class LinkedListTest {
 	@Test
 	public void testRemoveIntIndex0() {
 		//
-		custom= new LinkedList<>();
-		custom.add(2);
-		custom.add(6);
-		custom.add(7);
 		//
 		custom.remove(0);
 		int size = custom.size();
@@ -238,7 +224,7 @@ public class LinkedListTest {
 	@Test
 	public <T> void testRemoveIntIndex() {
 		//
-		custom= new LinkedList<>();
+		custom= new CustomLinkedList<>(3);
 		custom.add(2);
 		custom.add(6);
 		custom.add(7);
@@ -247,6 +233,7 @@ public class LinkedListTest {
 		T remove=(T)custom.remove(2);
 		int size = custom.size();
 		//
+		assertEquals(remove, new Integer(2));
 		assertEquals(2,size);
 	}
 
@@ -260,31 +247,43 @@ public class LinkedListTest {
 		fail("Not yet implemented");
 	}
 	
-	@Test
-	public void iterate_through_linkedList(){
-		//Given
-		List <Integer> linkedlist= new LinkedList();
-		
-		linkedlist.add(2);
-		linkedlist.add(3);
-		linkedlist.add(4);
-		//When
-		
-		Iterator <Integer> list=linkedlist.iterator();
+	//@Test
+/*	public void iterate_through_linkedList(){
+		//
+		custom.add(2);
+		custom.add(3);
+		custom.add(4);
+		//
 		
 		int count=0;
-		
-		//while(linkedlist.hasNext()){
-			Integer element= list.next();
-			
-			count ++;
-		}
-	   //Then
-	//	assertEquals(count, 3);
-	
+		while(custom.iterator().hasNext()){
+			Integer element= custom.iterator().next();
+			count ++;}
+	   //
+		assertEquals(count, 3); */
 
+	
 	@Test
-	public void testIterator() {
-		fail("Not yet implemented");
+	public void testIteratorHasNextTrue() {
+		
 	}
-}
+	
+	@Test(expected= IllegalStateException.class )
+	public void testIteratorNextException() {
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void testIteratorNextThrowException() {
+		
+	}
+	@Test
+	public void testIteratorNextValue() {}
+	
+	@ Test 
+	public void testIteratorRemove(){}
+	
+	@Test(expected= IllegalStateException.class)
+	public void testIteratorRemoveException(){}
+	
+	}
+

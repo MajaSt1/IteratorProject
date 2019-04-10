@@ -106,4 +106,9 @@ public abstract class AbstractCustomListAdapter<T> implements List<T> {
     public List<T> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException(StandardMessages.METHOD_NOT_IMPLEMENTED);
     }
+
+	public T set(int index, Node<T> element) throws IndexOutOfBoundsException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

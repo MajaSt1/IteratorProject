@@ -5,10 +5,10 @@ package datastructure.list;
  */
 public class Node <T> {
 	private T value;
-	private Node<T> next; //pointer
+	 Node<T> next; //pointer
 	
 	public Node(T value){
-		this(value,null);
+		this.value=value;
 	}
 
 	public Node(T value, Node<T> next) {
