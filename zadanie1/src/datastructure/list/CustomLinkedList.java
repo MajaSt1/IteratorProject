@@ -45,17 +45,22 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	}
 
 	@Override
-	public boolean add(T t) { //!!
+	public boolean add(T t) {
 		Node<T> newnode = new Node<T>(t);
 		Node<T> current = head;
-		
+		if(size > 0){
+			
 		int count = 0;
 		while (count <= size) {
 			current = current.getNext();
 			count++;
 		}
 		current.setNext(newnode) ;
+		
 		return true;
+		} else {
+			return false;
+		}
 
 	}
 
@@ -82,19 +87,19 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 	}
 
 	@Override
-	public T get(int index) {
+	public T get(int index) throws IndexOutOfBoundsException {
 		Node<T> current = head;
 		int count = 0;
 		while (count <= index) {
 			current = current.getNext();
 			count++;
-		}
+		}	
 		return current.getValue();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T set(int index, T element) {
+	public T set(int index, T element) throws IndexOutOfBoundsException {
 		Node<T> current = head;
 		int count = 0;
 		while (count <= index) {
@@ -117,9 +122,6 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		int count = 0;
 		while (count < index - 1) {
 			current = current.getNext();
-			// if(current == null){
-			// throw new IndexOutOfBoundsException("Cannot find item at position
-			// " + (index-1)); }
 			count++;
 		}
 		newnode.setNext(current.getNext());
@@ -135,23 +137,17 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 		Node<T> current = head;
 		int count = 0;
 		
-		
 		while (count < index - 1) {
 			current = current.getNext();
-			// if (current == null) {// throw new IndexOutOfBoundsException("Cannot find item at position " + (index-1));}
 			count++;
 		}
 
-		// if (current.getNext() == null) { throw new IndexOutOfBoundsException("Cannot find item at position " + index);}
-
 		current.setNext(current.getNext().getNext());
-		
 		size --;
 		
 		return (T) current;
 		}
-		
-		return null;	
+			return null;	
 	}
 
 	@Override

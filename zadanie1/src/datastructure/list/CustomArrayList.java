@@ -119,7 +119,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 	}
 
 	@Override
-	public T get(int index)  {
+	public T get(int index) {
 		rangeCheck(index);
 		
 		@SuppressWarnings("unchecked")
@@ -223,8 +223,8 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
 		@Override
 		public void remove() {
-			if( elementRemoved)
-	            throw new IllegalStateException("must call next() before calling remove()");
+			if( elementRemoved ){
+	            throw new IllegalStateException("must call next() before calling remove()");}
 			
 			Object[] newValue = new Object[value.length - 1];
 	        System.arraycopy(value, 0, newValue, 0, value.length - 1); 
@@ -232,7 +232,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 	        value = newValue;
 	        
 	        elementRemoved = true;
-
+			
 		}
 	}
 }

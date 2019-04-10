@@ -114,11 +114,6 @@ public class CustomArrayListTest<T> {
 	}
 
 	@Test
-	public void testIterator() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void shouldAddtestT() {
 		//
 		custom= new ArrayList<>(5);
@@ -177,7 +172,7 @@ public class CustomArrayListTest<T> {
 	@Test (expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionRemoveObjectTest() {
 		//
-		custom = new ArrayList<>();
+		custom = new ArrayList<>(0);
 		//
 		custom.remove(new Integer(1));
 	}
@@ -200,13 +195,10 @@ public class CustomArrayListTest<T> {
 	@Test(expected = IndexOutOfBoundsException.class )
 	public void testNotGet(){
 		//
-		custom= new ArrayList<>(3);
-		custom.add(6);
-		custom.add(2);
-		custom.add(4);
-        //
-		@SuppressWarnings("unchecked")
-		T element = (T) custom.get(7);
+		custom= new ArrayList<>(1);
+		custom.add(1);
+		//
+		T element = (T) custom.get(-1);	
 	}
 
 	@Test
@@ -303,6 +295,68 @@ public class CustomArrayListTest<T> {
 		
 	}
 	
+	@Test
+	public void testIteratorHasNextTrue() {
+		//
+		custom= new ArrayList<>(3);
+		custom.add(6);
+		custom.add(2);
+		custom.add(4);
+		//
+		boolean hasNext= custom.iterator().hasNext();
+		//
+		assertTrue(hasNext);
+	}
+	
+	@Test
+	public void testIteratorHasNextFalse() {
+		//
+		custom= new ArrayList<>();
+		//
+		boolean hasNext = custom.iterator().hasNext();
+		//
+		assertFalse(hasNext);
+	}
+
+	@Test(expected = NoSuchElementException.class)
+	public void testIteratorNextThrowException() {
+		//
+		custom= new ArrayList<>(3);
+		//
+		custom.iterator().next();
+	}
+
+	@Test
+	public void testIteratorNextValue() {
+		//
+		custom= new ArrayList<>(3);
+		custom.add(2);
+		custom.add(3);
+		custom.add(7);
+		//
+	     custom.iterator().hasNext();
+		@SuppressWarnings("unchecked")
+		T next= (T) custom.iterator().next();
+		//
+		Assert.assertEquals(2, next);	
+	}
+	
+	@ Test 
+	public void testIteratorRemove(){
+		//
+		custom= new ArrayList<>(3);
+		custom.add(2);
+		custom.add(3);
+		custom.add(7);
+		//
+	     custom.iterator().hasNext();
+		 custom.iterator().next();
+		 custom.iterator().remove();
+		 int size= custom.size();
+		
+		//
+		Assert.assertEquals(2, size);	
+	}
 	
 
 }
