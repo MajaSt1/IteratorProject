@@ -6,33 +6,33 @@ import java.util.List;
  * Stack, LIFO queue
  */
 public class CustomStack<T> extends AbstractCustomStackAdapter<T> {
-    List<T> storage = null;
+    List<T> storage;
 
-    /* (TODO Starterkit 1) Please introduce a sensible implementation */
     public CustomStack(List<T> storage) {
         this.storage = storage;
     }
 
     @Override
     public void push(T t) {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
+        storage.add(0,t);
     }
 
     @Override
     public T pop() {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return null;
+    	 if(!storage.isEmpty()){
+    		 return storage.remove(0);} else {
+    			 throw new IllegalStateException("Empty");
+    		 }
+          
     }
 
     @Override
     public int size() {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return 0;
+    	return storage.size();
     }
 
     @Override
     public boolean isEmpty() {
-        /* (TODO Starterkit 1) Please introduce a sensible implementation */
-        return false;
+    	return storage.size()== 0;
     }
 }

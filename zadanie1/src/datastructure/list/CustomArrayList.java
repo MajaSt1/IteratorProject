@@ -53,7 +53,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 	}
 	
 	 private void rangeCheck(int index) {
-	        if (index >= size)
+	        if (index <0 || index >= size)
 	            throw new IndexOutOfBoundsException("Out of array" + (index));
 	    }
 
