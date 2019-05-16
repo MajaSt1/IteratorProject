@@ -102,7 +102,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 			current = current.next;
 		}
 	//	Optional<T> nullable= Optional.of(current.value);
-		return (T) current.value;
+		return (T) current.next;
 	}
 
 	@SuppressWarnings("unchecked")
